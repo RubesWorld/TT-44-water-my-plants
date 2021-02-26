@@ -33,7 +33,42 @@ router.post("/register", (req, res) => {
   }
 });
 
-router.post("/login", (req, res) => {});
+router.post("/login", (req, res) => {
+  const { username, password } = req.body;
+
+  if (isValid(req.body)) {
+    Users.findBy({ username: username })
+      .then(([user]) => {
+        if (user && bcryptjs.compareSync(password, user.password)) {
+          const token = makeToken(user);
+          res
+            .status(200)
+            .json({ message: "Welcome to the API " + user.username, token });
+        } else {
+          res.status(400).json({ message: "Invalid credentials" });
+        }
+      })
+      .catch((err) => {
+        res.status(500).json({ message: err.message });
+      });
+  } else {
+    res.status(400).json({
+      message: "Please provide username and password.",
+    });
+  }
+});
+
+function makeToken(user) {
+  const payload = {
+    subjectL: user.id,
+    username: user.username,
+    role: user.role,
+  };
+  const options = {
+    expiresIn: "30m",
+  };
+  return jwt.sign(payload, "barred", options);
+}
 
 router.get("/logout", (req, res) => {});
 
