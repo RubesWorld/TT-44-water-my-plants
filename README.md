@@ -1,4 +1,4 @@
-# Build Week Scaffolding Node
+# Water-My-Plants
 
 ## Requirements
 
