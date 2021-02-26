@@ -1,6 +1,7 @@
-require('dotenv').config()
-/*
+require("dotenv").config();
 
+//!you cannot use % sign in password in env. Instead of %25 because that is the url encode.
+/*
   PORT=5000
   NODE_ENV=development
   DEV_DATABASE_URL='postgresql://postgres:password@localhost:5432/database_name'
@@ -15,17 +16,17 @@ require('dotenv').config()
     - testing_database_name (use the real name of the testing database you created in pgAdmin 4)
 
 */
-const pg = require('pg')
+const pg = require("pg");
 
 if (process.env.DATABASE_URL) {
-  pg.defaults.ssl = { rejectUnauthorized: false }
+  pg.defaults.ssl = { rejectUnauthorized: false };
 }
 
 const sharedConfig = {
-  client: 'pg',
-  migrations: { directory: './api/data/migrations' },
-  seeds: { directory: './api/data/seeds' },
-}
+  client: "pg",
+  migrations: { directory: "./api/data/migrations" },
+  seeds: { directory: "./api/data/seeds" },
+};
 
 module.exports = {
   development: {
@@ -41,4 +42,4 @@ module.exports = {
     connection: process.env.DATABASE_URL,
     pool: { min: 2, max: 10 },
   },
-}
+};

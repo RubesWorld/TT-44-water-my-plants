@@ -25,7 +25,7 @@
 - **test**: Runs tests.
 - **deploy**: Deploys the main branch to Heroku.
 
-**The following scripts NEED TO BE EDITED before using: replace `YOUR_HEROKU_APP_NAME_HERE`**
+**The following scripts NEED TO BE EDITED before using: replace `YOUR_HEROKU_APP_NAME_HERE` with `water-my-plant-tt44`**
 
 - **migrateh**: Migrates the Heroku database to the latest.
 - **rollbackh**: Rolls back migrations in the Heroku database.
