@@ -1,9 +1,9 @@
-const db = require("../../data/db-config");
+const db = require("../data/db-config");
 
 module.exports = {
   find,
   findById,
-  insert,
+  add,
   remove,
 };
 
@@ -14,7 +14,7 @@ function findById(id) {
   return db("users").where("id", id).first();
 }
 
-function insert(user) {
+function add(user) {
   return db("users")
     .insert(user)
     .then(([id]) => {
