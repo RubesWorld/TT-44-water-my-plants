@@ -5,6 +5,13 @@ exports.up = async (knex) => {
     users.string("password", 200).notNullable();
     users.integer("phoneNumber", 320).notNullable();
     users.timestamps(false, true);
+
+    .createTable('plants', (plants) => {
+      plants.increments('plant_id');
+      plants.string('nickname').notNullable().unique()
+      plants.string('species').notNullable()
+      plants.string('h20Frequency').notNullable()
+    })
   });
 };
 
