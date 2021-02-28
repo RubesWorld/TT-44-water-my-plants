@@ -4,7 +4,6 @@ module.exports = {
   find,
   findById,
   add,
-  remove,
 };
 
 function find() {
@@ -22,4 +21,4 @@ function add(user) {
     });
 }
 
-function remove(user) {}
+// function remove(user) {}

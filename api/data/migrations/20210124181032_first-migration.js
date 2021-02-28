@@ -4,20 +4,35 @@ exports.up = async (knex) => {
       users.increments("user_id");
       users.string("username", 200).notNullable();
       users.string("password", 200).notNullable();
-      users.integer("phoneNumber", 320).notNullable();
+      users.string("phoneNumber").notNullable().unique();
       users.timestamps(true, true);
     })
     .createTable("plants", (plants) => {
       plants.increments("plant_id");
       plants.string("nickname").notNullable().unique();
-      plants.string("species").notNullable();
-      plants.string("frequency").notNullable();
+      plants.integer("frequency").notNullable();
+      plants
+        .integer("creator_id")
+        .unsigned()
+        .notNullable()
+        .references("user_id")
+        .inTable("users")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
       plants
         .integer("species_id")
         .unsigned()
         .notNullable()
-        .references("plant_id")
-        .inTable("plants")
+        .references("species_id")
+        .inTable("species")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
+      plants
+        .integer("interval_id")
+        .unsigned()
+        .notNullable()
+        .references("interval_type_id")
+        .inTable("intervals")
         .onDelete("CASCADE")
         .onUpdate("CASCADE");
       plants.timestamps(true, true);
@@ -33,5 +48,9 @@ exports.up = async (knex) => {
 };
 
 exports.down = async (knex) => {
-  await knex.schema.dropTableIfExists("users");
+  await knex.schema
+    .dropTableIfExists("intervals")
+    .dropTableIfExists("species")
+    .dropTableIfExists("plants")
+    .dropTableIfExists("users");
 };

@@ -5,10 +5,10 @@ const bcryptjs = require("bcryptjs");
 const { isValid } = require("../users/users-service");
 
 const router = express.Router();
-const Users = require("../users/users-routers");
+const Users = require("../users/users-models");
 
 router.post("/register", (req, res) => {
-  const { credentials } = req.body;
+  const credentials = req.body;
 
   if (isValid(credentials)) {
     const rounds = process.env.BCRYPT_ROUNDS || 9;
@@ -24,7 +24,9 @@ router.post("/register", (req, res) => {
         res.status(201).json({ data: user });
       })
       .catch((err) => {
-        res.status(500).json({ message: err.message });
+        res
+          .status(500)
+          .json({ message: "there is an error on the add" + err.message });
       });
   } else {
     res
