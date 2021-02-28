@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
 
 const { isValid } = require("../users/users-service");
+const { jwtSecret } = require("../../config/secrets");
 
 const router = express.Router();
 const Users = require("../users/users-models");
@@ -64,12 +65,11 @@ function makeToken(user) {
   const payload = {
     subjectL: user.id,
     username: user.username,
-    role: user.role,
   };
   const options = {
     expiresIn: "30m",
   };
-  return jwt.sign(payload, "barred", options);
+  return jwt.sign(payload, jwtSecret, options);
 }
 
 router.get("/logout", (req, res) => {});
