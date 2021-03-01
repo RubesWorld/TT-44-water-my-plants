@@ -6,6 +6,7 @@ exports.seed = function (knex) {
       {
         nickname: "Sandra The Plant",
         frequency: 1,
+        time: "3:30pm",
         creator_id: 1,
         species_id: 2,
         interval_id: 2,
@@ -15,6 +16,7 @@ exports.seed = function (knex) {
       {
         nickname: "Kenny The Plant",
         frequency: 1,
+        time: "3:30pm",
         creator_id: 1,
         species_id: 1,
         interval_id: 3,
@@ -24,6 +26,7 @@ exports.seed = function (knex) {
       {
         nickname: "Sam The Plant",
         frequency: 1,
+        time: "3:30pm",
         creator_id: 2,
         species_id: 3,
         interval_id: 2,
