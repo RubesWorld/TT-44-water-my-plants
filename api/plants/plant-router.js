@@ -29,9 +29,13 @@ router.get("/:id", restricted, (req, res) => {
 
 router.post("/", restricted, (req, res) => {
   const newPlant = req.body;
-  Plants.insert(newPlant).then((plant) => {
-    res.status(201).json(plant);
-  });
+  Plants.insert(newPlant)
+    .then((plant) => {
+      res.status(201).json(plant);
+    })
+    .catch((err) => {
+      res.status(401).json("Error adding", err.message);
+    });
 });
 
 router.put("/:id", restricted, (req, res) => {
