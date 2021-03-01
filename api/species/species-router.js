@@ -3,3 +3,9 @@ const router = express.Router();
 
 const { restricted } = require("../middleware/restricted");
 const Species = require("./plants-model");
+
+function find() {}
+
+module.exports = {
+  find,
+};
