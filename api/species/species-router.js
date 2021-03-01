@@ -2,10 +2,16 @@ const express = require("express");
 const router = express.Router();
 
 const { restricted } = require("../middleware/restricted");
-const Species = require("./plants-model");
+const Species = require("./species-model");
 
-function find() {}
+router.get("/", (req, res) => {
+  Species.find()
+    .then((species) => {
+      res.status(200).json(species);
+    })
+    .catch((err) => {
+      res.status(401).json("Error in getting species due to ", err.message);
+    });
+});
 
-module.exports = {
-  find,
-};
+module.exports = router;

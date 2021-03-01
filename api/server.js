@@ -5,6 +5,7 @@ const cors = require("cors");
 const AuthRouter = require("./auth/auth-router");
 const PlantRouter = require("./plants/plant-router");
 const SpeciesRouter = require("./species/species-router");
+const UserRouter = require("./users/users-routers");
 
 const server = express();
 server.use(express.json());
@@ -13,6 +14,7 @@ server.use(express.json());
 server.use("/api/auth", AuthRouter);
 server.use("/api/plants", PlantRouter);
 server.use("/api/species", SpeciesRouter);
+server.use("/api/users", UserRouter);
 
 server.use(helmet());
 server.use(cors());
