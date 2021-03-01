@@ -1,4 +1,6 @@
+const { whereNotExists } = require("../data/db-config");
 const db = require("../data/db-config");
+const { findBy } = require("../users/users-models");
 
 function find() {
   return db("plants as p")
@@ -29,12 +31,39 @@ function findById(id) {
     .where("user_id", id);
 }
 
-function insert({ plant }) {
-  return db("plants")
-    .insert(plant)
-    .then((id) => {
-      return findById(id);
+async function insert({
+  creator_id,
+  species_id,
+  species_name,
+  nickname,
+  frequency,
+  interval_id,
+}) {
+  try {
+    let newlyPlantedId;
+    await db.transaction(async (trx) => {
+      let species_idToUse;
+      if (species_name) {
+        const [id] = await trx("species").insert({ species_name });
+        species_idToUse = id;
+      } else {
+        species_idToUse = species_id;
+      }
+
+      const [id] = await trx("plants").insert({
+        creator_id,
+        species_id: species_idToUse,
+        nickname,
+        frequency,
+        interval_id,
+      });
+      newlyPlantedId = id;
     });
+    return findById(newlyPlantedId);
+  } catch (err) {
+    console.log("Error on transaction", err.message);
+    Promise.reject(err);
+  }
 }
 
 function remove(id) {
