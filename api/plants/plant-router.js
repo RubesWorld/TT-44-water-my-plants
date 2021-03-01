@@ -5,7 +5,7 @@ const { restricted } = require("../middleware/restricted");
 const Plants = require("./plants-model");
 
 //get all plants
-router.get("/", restricted, (req, res) => {
+router.get("/", (req, res) => {
   Plants.find()
     .then((plant) => {
       res.status(201).json(plant);
@@ -16,7 +16,7 @@ router.get("/", restricted, (req, res) => {
 });
 
 //get all plants from a particular user
-router.get("/:id", restricted, (req, res) => {
+router.get("/:id", (req, res) => {
   const { id } = req.params;
   Plants.findById(id)
     .then((plants) => {
@@ -27,7 +27,7 @@ router.get("/:id", restricted, (req, res) => {
     });
 });
 
-router.post("/", restricted, (req, res) => {
+router.post("/", (req, res) => {
   const newPlant = req.body;
   Plants.insert(newPlant)
     .then((plant) => {
@@ -38,7 +38,7 @@ router.post("/", restricted, (req, res) => {
     });
 });
 
-router.put("/:id", restricted, (req, res) => {
+router.put("/:id", (req, res) => {
   const { id } = req.params;
   const changes = req.body;
   Plants.update(id, changes)
