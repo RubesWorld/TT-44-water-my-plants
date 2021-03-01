@@ -1,6 +1,4 @@
-const { whereNotExists } = require("../data/db-config");
 const db = require("../data/db-config");
-const { findBy } = require("../users/users-models");
 
 function find() {
   return db("plants as p")
