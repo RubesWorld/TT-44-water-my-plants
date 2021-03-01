@@ -29,7 +29,7 @@ function findById(id) {
     .where("user_id", id);
 }
 
-function insert(plant) {
+function insert({ plant }) {
   return db("plants")
     .insert(plant)
     .then((id) => {
@@ -37,8 +37,13 @@ function insert(plant) {
     });
 }
 
+function remove(id) {
+  return db("plants").where("plant_id", id).del();
+}
+
 module.exports = {
   find,
   findById,
   insert,
+  remove,
 };

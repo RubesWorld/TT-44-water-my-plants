@@ -5,10 +5,12 @@ const bcryptjs = require("bcryptjs");
 const { isValid } = require("../users/users-service");
 const { jwtSecret } = require("../../config/secrets");
 
+const mw = require("../middleware/auth-middleware");
+
 const router = express.Router();
 const Users = require("../users/users-models");
 
-router.post("/register", (req, res) => {
+router.post("/register", mw.validateRegister, mw.checkUsername, (req, res) => {
   const credentials = req.body;
 
   if (isValid(credentials)) {
@@ -36,7 +38,7 @@ router.post("/register", (req, res) => {
   }
 });
 
-router.post("/login", (req, res) => {
+router.post("/login", mw.validateLogin, (req, res) => {
   const { username, password } = req.body;
 
   if (isValid(req.body)) {
