@@ -6,7 +6,8 @@ exports.seed = function (knex) {
       {
         nickname: "Sandra The Plant",
         frequency: 1,
-        time: "3:30pm",
+        time: "3:30",
+        date: "2021-03-20",
         creator_id: 1,
         species_id: 2,
         interval_id: 2,

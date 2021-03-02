@@ -80,7 +80,8 @@ async function insert({
     return findById(newlyPlantedId);
   } catch (err) {
     console.log("Error on transaction", err.message);
-    Promise.reject(err);
+
+    // Promise.reject(err);
   }
 }
 
