@@ -23,7 +23,10 @@ function findById(id) {
       "i.interval_type_name",
       "p.frequency",
       "s.species_name",
-      "p.plant_id"
+      "p.plant_id",
+      "p.date",
+      "p.time",
+      "p.image"
     )
     .join("users as u", "p.creator_id", "u.user_id")
     .join("intervals as i", "p.interval_id", "i.interval_id")
@@ -40,7 +43,10 @@ function findByPlantId(id, plant_id) {
         "i.interval_type_name",
         "p.frequency",
         "s.species_name",
-        "p.plant_id"
+        "p.plant_id",
+        "p.date",
+        "p.time",
+        "p.image"
       )
       .join("users as u", "p.creator_id", "u.user_id")
       .join("intervals as i", "p.interval_id", "i.interval_id")
