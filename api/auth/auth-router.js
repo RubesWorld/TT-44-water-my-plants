@@ -46,9 +46,12 @@ router.post("/login", mw.validateLogin, (req, res) => {
       .then(([user]) => {
         if (user && bcryptjs.compareSync(password, user.password)) {
           const token = makeToken(user);
-          res
-            .status(200)
-            .json({ message: "Welcome to the API " + user.username, token });
+          res.status(200).json({
+            message: "Welcome to the API ",
+            username: `${user.username}`,
+            user_id: `${user.user_id}`,
+            token,
+          });
         } else {
           res.status(400).json({ message: "Invalid credentials" });
         }

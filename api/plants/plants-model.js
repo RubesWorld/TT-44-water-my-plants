@@ -7,7 +7,8 @@ function find() {
       "u.username as created-by",
       "i.interval_type_name",
       "p.frequency",
-      "s.species_name"
+      "s.species_name",
+      "p.plant_id"
     )
     .join("users as u", "p.creator_id", "u.user_id")
     .join("intervals as i", "p.interval_id", "i.interval_id")
@@ -21,12 +22,31 @@ function findById(id) {
       "u.username as created-by",
       "i.interval_type_name",
       "p.frequency",
-      "s.species_name"
+      "s.species_name",
+      "p.plant_id"
     )
     .join("users as u", "p.creator_id", "u.user_id")
     .join("intervals as i", "p.interval_id", "i.interval_id")
     .join("species as s", "p.species_id", "s.species_id")
     .where("user_id", id);
+}
+
+function findByPlantId(id, plant_id) {
+  findById(id).then(() => {
+    return db("plants as p")
+      .select(
+        "p.nickname",
+        "u.username as created-by",
+        "i.interval_type_name",
+        "p.frequency",
+        "s.species_name",
+        "p.plant_id"
+      )
+      .join("users as u", "p.creator_id", "u.user_id")
+      .join("intervals as i", "p.interval_id", "i.interval_id")
+      .join("species as s", "p.species_id", "s.species_id")
+      .where("plant_id", plant_id);
+  });
 }
 
 async function insert({
@@ -64,6 +84,10 @@ async function insert({
   }
 }
 
+// function update(id,changes){
+
+// }
+
 function remove(id) {
   return db("plants").where("plant_id", id).del();
 }
@@ -73,4 +97,5 @@ module.exports = {
   findById,
   insert,
   remove,
+  findByPlantId,
 };

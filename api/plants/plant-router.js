@@ -27,6 +27,19 @@ router.get("/:id", (req, res) => {
     });
 });
 
+//get plant of particular user by plant_id
+router.get("/:user/:id", (req, res) => {
+  const user = req.params.user;
+  const id = req.params.id;
+  Plants.findByPlantId(user, id)
+    .then((plant) => {
+      res.status(200).json(plant);
+    })
+    .catch((err) => {
+      res.status(401).json("Error getting plant", err.message);
+    });
+});
+
 router.post("/", (req, res) => {
   const newPlant = req.body;
   Plants.insert(newPlant)
