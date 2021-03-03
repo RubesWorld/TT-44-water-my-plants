@@ -9,7 +9,7 @@ const UserRouter = require("./users/users-routers");
 
 const server = express();
 server.use(express.json());
-server.use(cors({ origin: "null" }));
+server.use(cors());
 
 //setting up router
 server.use("/api/auth", AuthRouter);
