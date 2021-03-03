@@ -1,4 +1,5 @@
 const express = require("express");
+const { whereNotExists } = require("../data/db-config");
 
 const Users = require("./users-models");
 
@@ -23,6 +24,17 @@ router.get("/:id", (req, res) => {
     .catch((err) => {
       res.status(401).json("Error in getting errors", err.message);
     });
+});
+
+router.post(":/id", async (req, res, next) => {
+  try {
+    const changes = req.body;
+    const { id } = req.params;
+    const data = await Users.update(id, changes);
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;
