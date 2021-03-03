@@ -10,14 +10,13 @@ const UserRouter = require("./users/users-routers");
 const server = express();
 server.use(express.json());
 server.use(cors());
+server.use(helmet());
 
 //setting up router
 server.use("/api/auth", AuthRouter);
 server.use("/api/plants", PlantRouter);
 server.use("/api/species", SpeciesRouter);
 server.use("/api/users", UserRouter);
-
-server.use(helmet());
 
 server.get("*", (req, res) => {
   res.json({ PLANTS: "WATERED" });
