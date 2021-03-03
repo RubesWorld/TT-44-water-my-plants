@@ -65,6 +65,9 @@ async function insert({
   nickname,
   frequency,
   interval_id,
+  date,
+  time,
+  image,
 }) {
   try {
     let newlyPlantedId;
@@ -83,20 +86,23 @@ async function insert({
         nickname,
         frequency,
         interval_id,
+        date,
+        time,
+        image,
       });
       newlyPlantedId = id;
     });
     return findById(newlyPlantedId);
   } catch (err) {
-    console.log("Error on transaction", err.message);
-
+    console.log("Error on transaction:", err.message);
     // Promise.reject(err);
   }
 }
 
 // function update(id,changes){
-
 // }
+
+async function update(id, changes) {}
 
 function remove(id) {
   return db("plants").where("plant_id", id).del();

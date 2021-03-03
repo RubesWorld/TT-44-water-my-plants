@@ -4,6 +4,8 @@ const router = express.Router();
 const { restricted } = require("../middleware/restricted");
 const Plants = require("./plants-model");
 
+//! need to add restricted to all endpoints!
+
 //get all plants
 router.get("/", (req, res) => {
   Plants.find()
@@ -63,7 +65,7 @@ router.put("/:id", (req, res) => {
     });
 });
 
-router.delete("/:id", restricted, (req, res) => {
+router.delete("/:id", (req, res) => {
   const { id } = req.params;
   Plants.remove(id)
     .then((plant) => {
