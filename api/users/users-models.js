@@ -23,4 +23,9 @@ async function add(user) {
   return findById(id);
 }
 
+async function update(user, changes) {
+  const userId = id;
+  return db("users").where("id");
+}
+
 // function remove(user) {}

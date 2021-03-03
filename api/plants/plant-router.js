@@ -6,7 +6,8 @@ const Plants = require("./plants-model");
 
 //! need to add restricted to all endpoints!
 
-//get all plants
+//*Just plants 
+//get all plants in the database
 router.get("/", (req, res) => {
   Plants.find()
     .then((plant) => {
@@ -17,16 +18,52 @@ router.get("/", (req, res) => {
     });
 });
 
-//get all plants from a particular user
+//Get a plant by it's particular id
 router.get("/:id", (req, res) => {
   const { id } = req.params;
-  Plants.findById(id)
+  Plants.findByPlantId(id)
     .then((plants) => {
       res.status(201).json(plants);
     })
     .catch((err) => {
       res.status(401).json(err);
     });
+});
+
+//Create a plant 
+router.post("/", (req, res) => {
+  const newPlant = req.body;
+  Plants.insert(newPlant)
+  .then((plant) => {
+    res.status(201).json(plant);
+  })
+  .catch((err) => {
+    res.status(401).json("Error adding", err.message);
+  });
+});
+
+//update a plant 
+router.put("/:user/:id", (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+  Plants.update(id, changes)
+  .then((plant) => {
+    res.status(200).json(plant);
+  })
+  .catch((err) => {
+    res.status(401).json(err);
+  });
+});
+
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  Plants.remove(id)
+  .then((plant) => {
+    res.status(201).json({ plant });
+  })
+  .catch((err) => {
+    res.status(400).json({ message: "Could not delete Plant" });
+  });
 });
 
 //get plant of particular user by plant_id
@@ -41,39 +78,4 @@ router.get("/:user/:id", (req, res) => {
       res.status(401).json("Error getting plant", err.message);
     });
 });
-
-router.post("/", (req, res) => {
-  const newPlant = req.body;
-  Plants.insert(newPlant)
-    .then((plant) => {
-      res.status(201).json(plant);
-    })
-    .catch((err) => {
-      res.status(401).json("Error adding", err.message);
-    });
-});
-
-router.put("/:id", (req, res) => {
-  const { id } = req.params;
-  const changes = req.body;
-  Plants.update(id, changes)
-    .then((plant) => {
-      res.status(200).json(plant);
-    })
-    .catch((err) => {
-      res.status(401).json(err);
-    });
-});
-
-router.delete("/:id", (req, res) => {
-  const { id } = req.params;
-  Plants.remove(id)
-    .then((plant) => {
-      res.status(201).json({ plant });
-    })
-    .catch((err) => {
-      res.status(400).json({ message: "Could not delete Plant" });
-    });
-});
-
 module.exports = router;

@@ -4,6 +4,26 @@ function find() {
   return db("species");
 }
 
+//filter will come in as an object: {species_name: "pine"}
+function findBy(filter) {
+  return db("species").where(filter);
+}
+
+function findById(id) {
+  return db("species").where("species_id", id);
+}
+
+function add(species) {
+  return db("species")
+    .insert(species, "species_id")
+    .then(([id]) => {
+      return db("species").where("species_id", id).first();
+    });
+}
+
 module.exports = {
   find,
+  findBy,
+  findById,
+  add,
 };
