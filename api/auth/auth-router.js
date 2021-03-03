@@ -29,7 +29,9 @@ router.post("/register", mw.validateRegister, mw.checkUsername, (req, res) => {
       .catch((err) => {
         res
           .status(500)
-          .json({ message: "there is an error registration" + err.message });
+          .json({
+            message: "there is an error during registration" + err.message,
+          });
       });
   } else {
     res
