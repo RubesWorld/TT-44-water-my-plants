@@ -6,10 +6,10 @@ const Plants = require("./plants-model");
 
 //! need to add restricted to all endpoints!
 
-//*Just plants 
+//*Just plants
 //get all plants in the database
 router.get("/", (req, res) => {
-  Plants.find()
+  Plants.getAllPlants()
     .then((plant) => {
       res.status(201).json(plant);
     })
@@ -20,8 +20,8 @@ router.get("/", (req, res) => {
 
 //Get a plant by it's particular id
 router.get("/:id", (req, res) => {
-  const { id } = req.params;
-  Plants.findByPlantId(id)
+  const plant_id = req.params.id;
+  Plants.findByPlantId(plant_id)
     .then((plants) => {
       res.status(201).json(plants);
     })
@@ -30,52 +30,53 @@ router.get("/:id", (req, res) => {
     });
 });
 
-//Create a plant 
+//get all of a user's plants
+router.get("/user/:id", (req, res) => {
+  const user_id = req.params.id;
+  Plants.findAllUsersPlants(user_id)
+    .then((plants) => {
+      res.status(201).json(plants);
+    })
+    .catch((err) => {
+      res.status(401).json(err);
+    });
+});
+
+//Create a plant
 router.post("/", (req, res) => {
   const newPlant = req.body;
   Plants.insert(newPlant)
-  .then((plant) => {
-    res.status(201).json(plant);
-  })
-  .catch((err) => {
-    res.status(401).json("Error adding", err.message);
-  });
+    .then((plant) => {
+      res.status(201).json(plant);
+    })
+    .catch((err) => {
+      res.status(401).json("Error creating that plant", err.message);
+    });
 });
 
-//update a plant 
-router.put("/:user/:id", (req, res) => {
+//update a plant
+router.put("/:id", (req, res) => {
   const { id } = req.params;
   const changes = req.body;
   Plants.update(id, changes)
-  .then((plant) => {
-    res.status(200).json(plant);
-  })
-  .catch((err) => {
-    res.status(401).json(err);
-  });
-});
-
-router.delete("/:id", (req, res) => {
-  const { id } = req.params;
-  Plants.remove(id)
-  .then((plant) => {
-    res.status(201).json({ plant });
-  })
-  .catch((err) => {
-    res.status(400).json({ message: "Could not delete Plant" });
-  });
-});
-
-//get plant of particular user by plant_id
-router.get("/:user/:id", (req, res) => {
-  const user = req.params.user;
-  const id = req.params.id;
-  Plants.findByPlantId(user, id)
     .then((plant) => {
       res.status(200).json(plant);
     })
     .catch((err) => {
-      res.status(401).json("Error getting plant", err.message);
+      res.status(401).json(err);
     });
 });
+
+//delete a plant
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  Plants.remove(id)
+    .then((plant) => {
+      res.status(201).json({ plant });
+    })
+    .catch((err) => {
+      res.status(400).json({ message: "Could not delete Plant" });
+    });
+});
+
 module.exports = router;

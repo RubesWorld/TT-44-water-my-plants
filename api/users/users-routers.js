@@ -26,7 +26,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.post(":/id", async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
     const changes = req.body;
     const { id } = req.params;
@@ -36,5 +36,6 @@ router.post(":/id", async (req, res, next) => {
     next(err);
   }
 });
+
 
 module.exports = router;

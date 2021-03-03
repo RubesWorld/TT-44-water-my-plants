@@ -3,7 +3,8 @@ const knexfile = require("../../knexfile");
 const db = require("../data/db-config");
 const Species = require("../species/species-model");
 
-function find() {
+//get all plants
+function getAllPlants() {
   return db("plants as p")
     .select(
       "p.nickname",
@@ -40,7 +41,7 @@ function findByPlantId(id) {
     .where("plant_id", id);
 }
 
-function findAllUsersPlants(id) {
+function findAllUsersPlants(user_id) {
   return db("plants as p")
     .select(
       "p.nickname",
@@ -56,52 +57,10 @@ function findAllUsersPlants(id) {
     .join("users as u", "p.creator_id", "u.user_id")
     .join("intervals as i", "p.interval_id", "i.interval_id")
     .join("species as s", "p.species_id", "s.species_id")
-    .where("user_id", id);
+    .where("user_id", user_id);
 }
 
-// function findUsersPlantById() {
-
-// }
-
-// function insertPlant({
-//   creator_id,
-//   species_id,
-//   species_name,
-//   nickname,
-//   frequency,
-//   interval_id,
-//   date,
-//   time,
-//   image
-// }) {
-//   const [id] = Plants.insert(species_name,"species_")
-// }
-
-// function insert({
-//   creator_id,
-//   species_id,
-//   species_name,
-//   nickname,
-//   frequency,
-//   interval_id,
-//   date,
-//   time,
-//   image,
-// }) {
-//   db.transactions((trx) => {
-//     let newlyPlantedId;
-//     if (species_name) {
-//       let species_idToUse;
-//       return trx("species")
-//         .insert({ species_name }, "species_id")
-//         .then(([id]) => {
-//           species_idToUse = id;
-//         });
-//     } else {
-//     }
-//   });
-// }
-
+//!create middleware for checking if species name in DB
 //*Using Transaction
 async function insert({
   creator_id,
@@ -150,8 +109,9 @@ async function insert({
   }
 }
 
-// function update(id,changes){
-// }
+async function update(id, changes) {
+  
+}
 
 // async function update(id, changes) {}
 
@@ -160,7 +120,7 @@ function remove(id) {
 }
 
 module.exports = {
-  find,
+  getAllPlants,
   findByPlantId,
   insert,
   remove,
