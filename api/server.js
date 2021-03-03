@@ -17,7 +17,7 @@ server.use("/api/species", SpeciesRouter);
 server.use("/api/users", UserRouter);
 
 server.use(helmet());
-server.use(cors({ origin: "*" }));
+server.use(cors({ origin: "null" }));
 
 server.get("*", (req, res) => {
   res.json({ PLANTS: "WATERED" });
