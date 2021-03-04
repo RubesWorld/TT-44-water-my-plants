@@ -51,7 +51,7 @@ router.post("/login", mw.validateLogin, (req, res) => {
           res.status(200).json({
             message: "Welcome to the API ",
             username: `${user.username}`,
-            user_id: `${user.user_id}`,
+            user_id: ${user.user_id},
             token,
           });
         } else {
