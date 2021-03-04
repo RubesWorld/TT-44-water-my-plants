@@ -68,6 +68,34 @@ router.post("/login", mw.validateLogin, (req, res) => {
   }
 });
 
+router.put(('/update/:id', (req,res)=>{
+  const {id} = req.params;
+  const newPassword = req.body.password;
+
+  if(isValid(newPassword)) {
+    const rounds = process.env.BCRYPT_ROUNDS || 9;
+  
+    //hashing occurs
+    const hash = bcryptjs.hashSync(newPassword, rounds)
+
+    newPassword = hash;
+
+    //Add it to the database now 
+
+    Users.UpdateProfile(id,newPassword)
+      .then((user)=>{
+        res.status(201).json({data:user})
+      })
+      .catch((err)=>{
+        res.status(500).json({
+          message:"There was an error updating your password" + err.message
+        });
+      });
+  } else {
+    res.status(400).json({message: "You have not entered the proper info to register"})
+  }
+}));
+
 function makeToken(user) {
   const payload = {
     subjectL: user.id,
