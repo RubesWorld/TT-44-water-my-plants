@@ -70,19 +70,19 @@ router.post("/login", mw.validateLogin, (req, res) => {
 
 router.put(('/update/:id', (req,res)=>{
   const {id} = req.params;
-  const newPassword = req.body.password;
+  const credentials = req.body;
 
-  if(isValid(newPassword)) {
+  if(isValid(credentials)) {
     const rounds = process.env.BCRYPT_ROUNDS || 9;
   
     //hashing occurs
-    const hash = bcryptjs.hashSync(newPassword, rounds)
+    const hash = bcryptjs.hashSync(credentials, rounds)
 
-    newPassword = hash;
+    credentials.password = hash;
 
     //Add it to the database now 
 
-    Users.UpdateProfile(id,newPassword)
+    Users.UpdateProfile(id,credentials)
       .then((user)=>{
         res.status(201).json({data:user})
       })
