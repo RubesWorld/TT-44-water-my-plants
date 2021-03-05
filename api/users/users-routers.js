@@ -26,14 +26,14 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", async (req, res) => {
   try {
     const changes = req.body;
     const { id } = req.params;
     const data = await Users.updateProfile(id, changes);
-    res.json(data);
+    res.status(201).json(data);
   } catch (err) {
-    next(err);
+    res.status(500).json("error on phone number update", err.message);
   }
 });
 
