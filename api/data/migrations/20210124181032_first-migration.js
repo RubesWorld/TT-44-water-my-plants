@@ -22,6 +22,7 @@ exports.up = async (knex) => {
       plants.string("time");
       plants.string("date").notNullable();
       plants.string("image");
+      plants.boolean("watered").notNullable();
       plants
         .integer("creator_id")
         .unsigned()

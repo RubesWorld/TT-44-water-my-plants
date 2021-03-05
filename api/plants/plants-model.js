@@ -117,8 +117,8 @@ async function insert({
 
 function update(id, changes) {
   return db("plants").where({ plant_id: id }).update(changes, ["plant_id"]);
-  // return findByPlantId(resid);
-}
+//   // return findByPlantId(resid);
+// }
 
 function remove(id) {
   return db("plants").where("plant_id", id).del();
