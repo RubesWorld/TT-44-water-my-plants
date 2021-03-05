@@ -113,17 +113,21 @@ async function insert({
   }
 }
 
-// async function update(id, changes) {
-//   const [resid] = await db("plants")
-//     .where({ plant_id: id })
-//     .update(changes, ["plant_id"]);
-//   return findByPlantId(resid);
-// }
-
+//!This works except when foreign key is changed (i.e. species_id)
 function update(id, changes) {
-  return db("plants").where({ plant_id: id }).update(changes, ["plant_id"]);
-  //   // return findByPlantId(resid);
+  return db("plants")
+    .where({ plant_id: id })
+    .update(changes, ["plant_id"])
+    .then(() => {
+      return findByPlantId(id);
+    });
 }
+
+
+// function update(id, changes) {
+//   return db("plants").where({ plant_id: id }).update(changes, ["plant_id"]);
+//   //   // return findByPlantId(resid);
+// }
 
 function remove(id) {
   return db("plants").where("plant_id", id).del();
