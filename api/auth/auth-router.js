@@ -2,7 +2,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
 
-const { isValid } = require("../users/users-service");
+const { isValid, isUpdateValid } = require("../users/users-service");
 const { jwtSecret } = require("../../config/secrets");
 
 const mw = require("../middleware/auth-middleware");
@@ -49,7 +49,7 @@ router.post("/login", mw.validateLogin, (req, res) => {
           res.status(200).json({
             message: "Welcome to the API ",
             username: `${user.username}`,
-            user_id: `${user.user_id}`,
+            user_id: user.user_id,
             token,
           });
         } else {
@@ -66,38 +66,35 @@ router.post("/login", mw.validateLogin, (req, res) => {
   }
 });
 
-router.put(
-  ("/update/:id",
-  (req, res) => {
-    const { id } = req.params;
-    const credentials = req.body;
+router.put("/update/:id", (req, res) => {
+  const { id } = req.params;
+  const credentials = req.body;
 
-    if (isValid(credentials)) {
-      const rounds = process.env.BCRYPT_ROUNDS || 9;
+  if (isUpdateValid(credentials)) {
+    const rounds = process.env.BCRYPT_ROUNDS || 9;
 
-      //hashing occurs
-      const hash = bcryptjs.hashSync(credentials, rounds);
+    //hashing occurs
+    const hash = bcryptjs.hashSync(credentials.password, rounds);
 
-      credentials.password = hash;
+    credentials.password = hash;
 
-      //Add it to the database now
+    //Add it to the database now
 
-      Users.UpdateProfile(id, credentials)
-        .then((user) => {
-          res.status(201).json({ data: user });
-        })
-        .catch((err) => {
-          res.status(500).json({
-            message: "There was an error updating your password" + err.message,
-          });
+    Users.updateProfile(id, credentials)
+      .then((user) => {
+        res.status(201).json({ data: user });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          message: "There was an error updating your password" + err.message,
         });
-    } else {
-      res
-        .status(400)
-        .json({ message: "You have not entered the proper info to register" });
-    }
-  })
-);
+      });
+  } else {
+    res.status(400).json({
+      message: "You have not entered the proper info to update your password",
+    });
+  }
+});
 
 function makeToken(user) {
   const payload = {

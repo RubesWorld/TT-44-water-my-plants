@@ -30,12 +30,11 @@ router.put("/:id", async (req, res, next) => {
   try {
     const changes = req.body;
     const { id } = req.params;
-    const data = await Users.update(id, changes);
+    const data = await Users.updateProfile(id, changes);
     res.json(data);
   } catch (err) {
     next(err);
   }
 });
-
 
 module.exports = router;

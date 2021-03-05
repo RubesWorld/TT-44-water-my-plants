@@ -110,10 +110,11 @@ async function insert({
 }
 
 async function update(id, changes) {
-  
+  const [resid] = await db("plants")
+    .where({ plant_id: id })
+    .update(changes, ["plant_id"]);
+  return findByPlantId(resid);
 }
-
-// async function update(id, changes) {}
 
 function remove(id) {
   return db("plants").where("plant_id", id).del();
@@ -124,5 +125,6 @@ module.exports = {
   findByPlantId,
   insert,
   remove,
+  update,
   findAllUsersPlants,
 };
