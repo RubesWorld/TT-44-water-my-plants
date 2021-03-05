@@ -1,4 +1,3 @@
-const { KnexTimeoutError } = require("knex/lib/util/timeout");
 const knexfile = require("../../knexfile");
 const db = require("../data/db-config");
 const Species = require("../species/species-model");
@@ -109,11 +108,16 @@ async function insert({
   }
 }
 
-async function update(id, changes) {
-  const [resid] = await db("plants")
-    .where({ plant_id: id })
-    .update(changes, ["plant_id"]);
-  return findByPlantId(resid);
+// async function update(id, changes) {
+//   const [resid] = await db("plants")
+//     .where({ plant_id: id })
+//     .update(changes, ["plant_id"]);
+//   return findByPlantId(resid);
+// }
+
+function update(id, changes) {
+  return db("plants").where({ plant_id: id }).update(changes, ["plant_id"]);
+  // return findByPlantId(resid);
 }
 
 function remove(id) {
