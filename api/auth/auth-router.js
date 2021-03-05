@@ -50,6 +50,7 @@ router.post("/login", mw.validateLogin, (req, res) => {
             message: "Welcome to the API ",
             username: `${user.username}`,
             user_id: user.user_id,
+            phoneNumber: `${user.phoneNumber}`,
             token,
           });
         } else {
