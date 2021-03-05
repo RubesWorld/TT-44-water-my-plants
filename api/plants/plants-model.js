@@ -14,7 +14,8 @@ function getAllPlants() {
       "p.plant_id",
       "p.date",
       "p.time",
-      "p.image"
+      "p.image",
+      "p.watered"
     )
     .join("users as u", "p.creator_id", "u.user_id")
     .join("intervals as i", "p.interval_id", "i.interval_id")
@@ -32,7 +33,8 @@ function findByPlantId(id) {
       "s.species_name",
       "p.date",
       "p.time",
-      "p.image"
+      "p.image",
+      "p.watered"
     )
     .join("users as u", "p.creator_id", "u.user_id")
     .join("intervals as i", "p.interval_id", "i.interval_id")
@@ -51,7 +53,8 @@ function findAllUsersPlants(user_id) {
       "p.plant_id",
       "p.date",
       "p.time",
-      "p.image"
+      "p.image",
+      "p.watered"
     )
     .join("users as u", "p.creator_id", "u.user_id")
     .join("intervals as i", "p.interval_id", "i.interval_id")
@@ -71,6 +74,7 @@ async function insert({
   date,
   time,
   image,
+  watered
 }) {
   try {
     let newlyPlantedId;
@@ -96,6 +100,7 @@ async function insert({
           date,
           time,
           image,
+          watered
         },
         "plant_id"
       );
